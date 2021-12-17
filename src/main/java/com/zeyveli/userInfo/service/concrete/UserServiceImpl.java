@@ -39,21 +39,24 @@ public class UserServiceImpl implements UserService {
         List<User> listUsers = userRepository.findAll();
         List<UserResponse> listUserResponse = null;
         for (User user : listUsers) {
-            listUserResponse.add(modelMapper.map(user,UserResponse.class));
+            listUserResponse.add(modelMapper.map(user, UserResponse.class));
         }
         return listUserResponse;
     }
 
     @Override
     public UserResponse update(UserUpdateRequest userUpdateRequest) {
-      Optional<User> userOptional = userRepository.findById(userUpdateRequest.getId());
-      User user = userOptional.get();
-      user = userRepository.saveAndFlush(user);
-      return modelMapper.map(user,UserResponse.class);
+        Optional<User> userOptional = userRepository.findById(userUpdateRequest.getId());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user = userRepository.saveAndFlush(user);
+            return modelMapper.map(user, UserResponse.class);
+        }
+        return null;
     }
 
-    @Override
-    public void delete(int id) {
-        userRepository.deleteById(id);
+        @Override
+        public void delete ( int id){
+            userRepository.deleteById(id);
+        }
     }
-}
