@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @EqualsAndHashCode()
 @AllArgsConstructor
@@ -43,4 +44,6 @@ public class User {
     @JoinColumn(name = "company_id")
     private Company companyId;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date StartDate;
 }

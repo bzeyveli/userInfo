@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse create(UserCreateRequest userCreateRequest) {
         User user = modelMapper.map(userCreateRequest, User.class);
+        user.setStartDate(new Date());
         UserResponse userResponse = modelMapper.map(userRepository.saveAndFlush(user), UserResponse.class);
         return userResponse;
     }
@@ -49,6 +51,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(userUpdateRequest.getId());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+            user.setStartDate(new Date());
             user = userRepository.saveAndFlush(user);
             return modelMapper.map(user, UserResponse.class);
         }
